@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Axiom Trust — Loader Animation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #F9F8F4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 64px 32px;
+      gap: 56px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #64748B;
+    }
+
+    /* ── Section ── */
+    .section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .section__header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section__title {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #64748B;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border: 1px solid #C5A059;
+      border-radius: 3px;
+      background: transparent;
+      color: #C5A059;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-download:hover {
+      background: #C5A059;
+      color: #fff;
+    }
+    .btn-download--tsx {
+      border-color: #1C242B;
+      color: #1C242B;
+    }
+    .btn-download--tsx:hover {
+      background: #1C242B;
+      color: #fff;
+    }
+    .btn-download svg {
+      flex-shrink: 0;
+    }
+
+    .cards {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      width: 180px;
+      height: 180px;
+      border-radius: 4px;
+    }
+
+    .card--dark   { background: #1C242B; }
+    .card--light  { background: #F9F8F4; border: 1px solid #E5E3DC; }
+    .card--forest { background: #1B4D3E; }
+
+    .card__label {
+      font-family: 'Playfair Display', serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+    }
+
+    .card--dark   .card__label { color: #F9F8F4; }
+    .card--light  .card__label { color: #1C242B; }
+    .card--forest .card__label { color: #C5A059; }
+
+    .divider {
+      width: 100%;
+      max-width: 640px;
+      border: none;
+      border-top: 1px solid #E5E3DC;
+    }
+
+    /* ════════════════════════════════
+       LOADER A — Glowing triangle fill
+       ════════════════════════════════ */
+    .loader-a {
+      --b: 25%;
+      height: 60px;
+      aspect-ratio: 1/cos(30deg);
+      position: relative;
+      clip-path: polygon(
+        50% 0, 100% 100%, 0 100%, 50% 0,
+        50% var(--b),
+        calc(var(--b)*cos(30deg)) calc(100% - var(--b)/2),
+        calc(100% - var(--b)*cos(30deg)) calc(100% - var(--b)/2),
+        50% var(--b)
+      );
+      filter: blur(10px);
+    }
+    .loader-a::before {
+      content: "";
+      position: absolute;
+      inset: -8% 0;
+      background: conic-gradient(#0000 30%, #C5A059, #1B4D3E 55%, #0000 68%);
+      animation: spin-a 3s linear infinite;
+    }
+    @keyframes spin-a {
+      to { rotate: 1turn; }
+    }
+
+    /* ════════════════════════════════
+       LOADER B — Gyroscopic triangles
+       ════════════════════════════════ */
+    .loader-b {
+      --accent: #1B4D3E;
+      width: 50px;
+      aspect-ratio: 1.154;
+      display: grid;
+      color: var(--accent);
+      background:
+        linear-gradient(to bottom left,  #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) right/50% 100%,
+        linear-gradient(to bottom right, #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) left /50% 100%,
+        linear-gradient(currentColor 0 0) bottom/100% 2px;
+      background-repeat: no-repeat;
+      transform-origin: 50% 66%;
+      animation: spin-b 4s infinite linear;
+    }
+    .loader-b::before,
+    .loader-b::after {
+      content: "";
+      grid-area: 1/1;
+      background: inherit;
+      transform-origin: inherit;
+      animation: inherit;
+    }
+    .loader-b::after {
+      animation-duration: 2s;
+    }
+    @keyframes spin-b {
+      100% { transform: rotate(1turn); }
+    }
+
+    /* ════════════════════════════════
+       LOADER C — Pulsing diamond
+       ════════════════════════════════ */
+    .loader-c {
+      --accent: #1B4D3E;
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      transform: rotate(45deg);
+      animation: pulse-c 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse-c {
+      0%, 100% { transform: rotate(45deg) scale(1);   opacity: 1; }
+      50%       { transform: rotate(45deg) scale(0.5); opacity: 0.3; }
+    }
+
+    /* ════════════════════════════════
+       LOADER E — Expanding quadrants
+       ════════════════════════════════ */
+    .loader-e {
+      --accent: #1B4D3E;
+      --accent2: #1C242B;
+      --base: #C5A059;
+      width: 54px;
+      aspect-ratio: 1;
+      background:
+        linear-gradient( 45deg, var(--accent) 50%, #0000 0),
+        linear-gradient( 45deg, #0000 50%, var(--accent) 0),
+        linear-gradient(-45deg, var(--accent2) 50%, #0000 0),
+        linear-gradient(-45deg, #0000 50%, var(--accent2) 0),
+        linear-gradient(var(--base) 0 0);
+      background-size: 50% 50%;
+      background-repeat: no-repeat;
+      animation: expand-e 1.2s infinite alternate cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes expand-e {
+      0%,  20% {
+        background-position: 50% 50%, 50% 50%, 50%  50%, 50% 50%, 50% 50%;
+        background-size:     50% 50%, 50% 50%, 50%  50%, 50% 50%, 50% 50%;
+      }
+      80%, 100% {
+        background-position: 0 100%, 100% 0, 100% 100%, 0 0, 50% 50%;
+        background-size:     50% 50%, 50% 50%, 50%  50%, 50% 50%, 100% 100%;
+      }
+    }
+
+    /* ════════════════════════════════
+       LOADER D — Orbiting dot ring
+       ════════════════════════════════ */
+    .loader-d {
+      --accent: #1B4D3E;
+      width: 48px;
+      height: 48px;
+      position: relative;
+    }
+    .loader-d::before,
+    .loader-d::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+    }
+    .loader-d::before {
+      inset: 0;
+      border: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    }
+    .loader-d::after {
+      width: 10px;
+      height: 10px;
+      background: var(--accent);
+      top: -5px;
+      left: 50%;
+      translate: -50% 0;
+      animation: orbit-d 2s linear infinite;
+      transform-origin: 50% calc(24px + 5px);
+    }
+    @keyframes orbit-d {
+      to { rotate: 1turn; }
+    }
+
+    /* ════════════════════════════════
+       LOADER F — Tri-blade breathe
+       ════════════════════════════════ */
+    .loader-f {
+      --accent: #1B4D3E;
+      width: 50px;
+      aspect-ratio: 1.154;
+      position: relative;
+      background: conic-gradient(from 120deg at 50% 64%, #0000, var(--accent) 1deg 120deg, #0000 121deg);
+      animation: snap-f0 1.5s infinite cubic-bezier(0.3,1,0,1);
+    }
+    .loader-f::before,
+    .loader-f::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: inherit;
+      transform-origin: 50% 66%;
+      animation: breathe-f 1.5s infinite;
+    }
+    .loader-f::after {
+      --s: -1;
+    }
+    @keyframes snap-f0 {
+      0%,   30%      { transform: rotate(0); }
+      70%            { transform: rotate(120deg); }
+      70.01%, 100%   { transform: rotate(360deg); }
+    }
+    @keyframes breathe-f {
+      0%      { transform: rotate(calc(var(--s,1)*120deg)) translate(0); }
+      30%,70% { transform: rotate(calc(var(--s,1)*120deg)) translate(calc(var(--s,1)*-5px), 10px); }
+      100%    { transform: rotate(calc(var(--s,1)*120deg)) translate(0); }
+    }
+
+    /* ════════════════════════════════
+       LOADER G — Diamond sweep
+       ════════════════════════════════ */
+    .loader-g {
+      --accent: #1B4D3E;
+      --shell: #1C242B;
+      position: relative;
+      width: 56px;
+      height: 56px;
+      background-color: var(--shell);
+      transform: rotate(45deg);
+      overflow: hidden;
+    }
+    .loader-g::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      margin: auto;
+      background: var(--accent);
+    }
+    .loader-g::before {
+      content: '';
+      position: absolute;
+      inset: -15px;
+      margin: auto;
+      background: #C5A059;
+      animation: sweep-g 2s linear infinite;
+    }
+    @keyframes sweep-g {
+      0%,  10% { transform: translate(-64px, -64px) rotate(-45deg); }
+      90%, 100% { transform: translate(0px, 0px)   rotate(-45deg); }
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Axiom Trust — Loader Comparison</h1>
+
+  <!-- ── A: Glowing Triangle ── -->
+  <div class="section" data-loader="a">
+    <div class="section__header">
+      <span class="section__title">A — Glowing Triangle</span>
+      <button class="btn-download" onclick="download('a')" title="Download CSS">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        CSS
+      </button>
+      <button class="btn-download btn-download--tsx" onclick="downloadTsx(this.closest('.section').dataset.loader)" title="Download React component">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        TSX
+      </button>
+    </div>
+    <div class="cards">
+      <div class="card card--dark">
+        <div class="loader-a"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+      <div class="card card--light">
+        <div class="loader-a"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+      <div class="card card--forest">
+        <div class="loader-a"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── B: Gyroscopic Triangles ── -->
+  <div class="section" data-loader="b">
+    <div class="section__header">
+      <span class="section__title">B — Gyroscopic Triangles</span>
+      <button class="btn-download" onclick="download('b')">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        CSS
+      </button>
+      <button class="btn-download btn-download--tsx" onclick="downloadTsx(this.closest('.section').dataset.loader)" title="Download React component">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        TSX
+      </button>
+    </div>
+    <div class="cards">
+      <div class="card card--dark">
+        <div class="loader-b"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+      <div class="card card--light">
+        <div class="loader-b"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+      <div class="card card--forest">
+        <div class="loader-b" style="--accent: #C5A059;"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── C: Pulsing Diamond ── -->
+  <div class="section" data-loader="c">
+    <div class="section__header">
+      <span class="section__title">C — Pulsing Diamond</span>
+      <button class="btn-download" onclick="download('c')">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        CSS
+      </button>
+      <button class="btn-download btn-download--tsx" onclick="downloadTsx(this.closest('.section').dataset.loader)" title="Download React component">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        TSX
+      </button>
+    </div>
+    <div class="cards">
+      <div class="card card--dark">
+        <div class="loader-c"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+      <div class="card card--light">
+        <div class="loader-c"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+      <div class="card card--forest">
+        <div class="loader-c" style="--accent: #C5A059;"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── E: Expanding Quadrants ── -->
+  <div class="section" data-loader="e">
+    <div class="section__header">
+      <span class="section__title">E — Expanding Quadrants</span>
+      <button class="btn-download" onclick="download('e')">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        CSS
+      </button>
+      <button class="btn-download btn-download--tsx" onclick="downloadTsx(this.closest('.section').dataset.loader)" title="Download React component">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        TSX
+      </button>
+    </div>
+    <div class="cards">
+      <div class="card card--dark">
+        <div class="loader-e"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+      <div class="card card--light">
+        <div class="loader-e"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+      <div class="card card--forest">
+        <div class="loader-e" style="--accent: #C5A059; --accent2: #F9F8F4; --base: #1C242B;"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── D: Orbiting Dot ── -->
+  <div class="section" data-loader="d">
+    <div class="section__header">
+      <span class="section__title">D — Orbiting Dot</span>
+      <button class="btn-download" onclick="download('d')">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        CSS
+      </button>
+      <button class="btn-download btn-download--tsx" onclick="downloadTsx(this.closest('.section').dataset.loader)" title="Download React component">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        TSX
+      </button>
+    </div>
+    <div class="cards">
+      <div class="card card--dark">
+        <div class="loader-d"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+      <div class="card card--light">
+        <div class="loader-d"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+      <div class="card card--forest">
+        <div class="loader-d" style="--accent: #C5A059;"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── F: Tri-blade Breathe ── -->
+  <div class="section" data-loader="f">
+    <div class="section__header">
+      <span class="section__title">F — Tri-blade Breathe</span>
+      <button class="btn-download" onclick="download('f')">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        CSS
+      </button>
+      <button class="btn-download btn-download--tsx" onclick="downloadTsx(this.closest('.section').dataset.loader)" title="Download React component">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        TSX
+      </button>
+    </div>
+    <div class="cards">
+      <div class="card card--dark">
+        <div class="loader-f"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+      <div class="card card--light">
+        <div class="loader-f"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+      <div class="card card--forest">
+        <div class="loader-f" style="--accent: #C5A059;"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── G: Diamond Sweep ── -->
+  <div class="section" data-loader="g">
+    <div class="section__header">
+      <span class="section__title">G — Diamond Sweep</span>
+      <button class="btn-download" onclick="download('g')">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        CSS
+      </button>
+      <button class="btn-download btn-download--tsx" onclick="downloadTsx(this.closest('.section').dataset.loader)" title="Download React component">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        TSX
+      </button>
+    </div>
+    <div class="cards">
+      <div class="card card--dark">
+        <div class="loader-g"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+      <div class="card card--light">
+        <div class="loader-g"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+      <div class="card card--forest">
+        <div class="loader-g" style="--accent: #C5A059; --shell: #1C242B;"></div>
+        <span class="card__label">Axiom Trust</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const css = {
+      a: `/* HTML: <div class="loader"></div> */
+.loader {
+  --b: 25%;
+  height: 60px;
+  aspect-ratio: 1/cos(30deg);
+  position: relative;
+  clip-path: polygon(
+    50% 0, 100% 100%, 0 100%, 50% 0,
+    50% var(--b),
+    calc(var(--b)*cos(30deg)) calc(100% - var(--b)/2),
+    calc(100% - var(--b)*cos(30deg)) calc(100% - var(--b)/2),
+    50% var(--b)
+  );
+  filter: blur(10px);
+}
+.loader::before {
+  content: "";
+  position: absolute;
+  inset: -8% 0;
+  background: conic-gradient(#0000 30%, #C5A059, #1B4D3E 55%, #0000 68%);
+  animation: loader-spin 3s linear infinite;
+}
+@keyframes loader-spin {
+  to { rotate: 1turn; }
+}`,
+
+      b: `/* HTML: <div class="loader"></div> */
+.loader {
+  --accent: #1B4D3E;
+  width: 50px;
+  aspect-ratio: 1.154;
+  display: grid;
+  color: var(--accent);
+  background:
+    linear-gradient(to bottom left,  #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) right/50% 100%,
+    linear-gradient(to bottom right, #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) left /50% 100%,
+    linear-gradient(currentColor 0 0) bottom/100% 2px;
+  background-repeat: no-repeat;
+  transform-origin: 50% 66%;
+  animation: loader-spin 4s infinite linear;
+}
+.loader::before,
+.loader::after {
+  content: "";
+  grid-area: 1/1;
+  background: inherit;
+  transform-origin: inherit;
+  animation: inherit;
+}
+.loader::after {
+  animation-duration: 2s;
+}
+@keyframes loader-spin {
+  100% { transform: rotate(1turn); }
+}`,
+
+      c: `/* HTML: <div class="loader"></div> */
+.loader {
+  --accent: #1B4D3E;
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  transform: rotate(45deg);
+  animation: loader-pulse 2.4s ease-in-out infinite;
+}
+@keyframes loader-pulse {
+  0%, 100% { transform: rotate(45deg) scale(1);   opacity: 1; }
+  50%       { transform: rotate(45deg) scale(0.5); opacity: 0.3; }
+}`,
+
+      e: `/* HTML: <div class="loader"></div> */
+.loader {
+  --accent:  #1B4D3E;
+  --accent2: #1C242B;
+  --base:    #C5A059;
+  width: 54px;
+  aspect-ratio: 1;
+  background:
+    linear-gradient( 45deg, var(--accent) 50%, #0000 0),
+    linear-gradient( 45deg, #0000 50%, var(--accent) 0),
+    linear-gradient(-45deg, var(--accent2) 50%, #0000 0),
+    linear-gradient(-45deg, #0000 50%, var(--accent2) 0),
+    linear-gradient(var(--base) 0 0);
+  background-size: 50% 50%;
+  background-repeat: no-repeat;
+  animation: loader-expand 1.2s infinite alternate cubic-bezier(.4,0,.2,1);
+}
+@keyframes loader-expand {
+  0%,  20% {
+    background-position: 50% 50%, 50% 50%, 50%  50%, 50% 50%, 50% 50%;
+    background-size:     50% 50%, 50% 50%, 50%  50%, 50% 50%, 50% 50%;
+  }
+  80%, 100% {
+    background-position: 0 100%, 100% 0, 100% 100%, 0 0, 50% 50%;
+    background-size:     50% 50%, 50% 50%, 50%  50%, 50% 50%, 100% 100%;
+  }
+}`,
+
+      d: `/* HTML: <div class="loader"></div> */
+.loader {
+  --accent: #1B4D3E;
+  width: 48px;
+  height: 48px;
+  position: relative;
+}
+.loader::before,
+.loader::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+.loader::before {
+  inset: 0;
+  border: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.loader::after {
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  top: -5px;
+  left: 50%;
+  translate: -50% 0;
+  animation: loader-orbit 2s linear infinite;
+  transform-origin: 50% calc(24px + 5px);
+}
+@keyframes loader-orbit {
+  to { rotate: 1turn; }
+}`,
+
+      f: `/* HTML: <div class="loader"></div> */
+.loader {
+  --accent: #1B4D3E;
+  width: 50px;
+  aspect-ratio: 1.154;
+  position: relative;
+  background: conic-gradient(from 120deg at 50% 64%, #0000, var(--accent) 1deg 120deg, #0000 121deg);
+  animation: loader-snap 1.5s infinite cubic-bezier(0.3,1,0,1);
+}
+.loader::before,
+.loader::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  transform-origin: 50% 66%;
+  animation: loader-breathe 1.5s infinite;
+}
+.loader::after {
+  --s: -1;
+}
+@keyframes loader-snap {
+  0%,   30%      { transform: rotate(0); }
+  70%            { transform: rotate(120deg); }
+  70.01%, 100%   { transform: rotate(360deg); }
+}
+@keyframes loader-breathe {
+  0%      { transform: rotate(calc(var(--s,1)*120deg)) translate(0); }
+  30%,70% { transform: rotate(calc(var(--s,1)*120deg)) translate(calc(var(--s,1)*-5px), 10px); }
+  100%    { transform: rotate(calc(var(--s,1)*120deg)) translate(0); }
+}`,
+
+      g: `/* HTML: <div class="loader"></div> */
+.loader {
+  --accent: #1B4D3E;
+  --shell:  #1C242B;
+  position: relative;
+  width: 56px;
+  height: 56px;
+  background-color: var(--shell);
+  transform: rotate(45deg);
+  overflow: hidden;
+}
+.loader::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  margin: auto;
+  background: var(--accent);
+}
+.loader::before {
+  content: '';
+  position: absolute;
+  inset: -15px;
+  margin: auto;
+  background: #C5A059;
+  animation: loader-sweep 2s linear infinite;
+}
+@keyframes loader-sweep {
+  0%,  10% { transform: translate(-64px, -64px) rotate(-45deg); }
+  90%, 100% { transform: translate(0px, 0px)   rotate(-45deg); }
+}`,
+    };
+
+    // ── React TSX component templates ──────────────────────────────────────
+    const tsx = {
+      a: (c) => `import React from 'react';
+
+const css = \`
+.loader-at {
+  --b: 25%;
+  height: 60px;
+  aspect-ratio: 1/cos(30deg);
+  position: relative;
+  clip-path: polygon(
+    50% 0, 100% 100%, 0 100%, 50% 0,
+    50% var(--b),
+    calc(var(--b)*cos(30deg)) calc(100% - var(--b)/2),
+    calc(100% - var(--b)*cos(30deg)) calc(100% - var(--b)/2),
+    50% var(--b)
+  );
+  filter: blur(10px);
+}
+.loader-at::before {
+  content: "";
+  position: absolute;
+  inset: -8% 0;
+  background: conic-gradient(#0000 30%, #C5A059, #1B4D3E 55%, #0000 68%);
+  animation: loader-at-spin 3s linear infinite;
+}
+@keyframes loader-at-spin {
+  to { rotate: 1turn; }
+}
+\`;
+
+// Usage: <LoaderGlowingTriangle />
+export function LoaderGlowingTriangle() {
+  return (
+    <>
+      <style>{\`\${css}\`}</style>
+      <div className="loader-at" role="status" aria-label="Loading" />
+    </>
+  );
+}
+`,
+
+      b: (c) => `import React from 'react';
+
+const css = \`
+.loader-bt {
+  --accent: ${c.accent ?? '#1B4D3E'};
+  width: 50px;
+  aspect-ratio: 1.154;
+  display: grid;
+  color: var(--accent);
+  background:
+    linear-gradient(to bottom left,  #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) right/50% 100%,
+    linear-gradient(to bottom right, #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) left /50% 100%,
+    linear-gradient(currentColor 0 0) bottom/100% 2px;
+  background-repeat: no-repeat;
+  transform-origin: 50% 66%;
+  animation: loader-bt-spin 4s infinite linear;
+}
+.loader-bt::before,
+.loader-bt::after {
+  content: "";
+  grid-area: 1/1;
+  background: inherit;
+  transform-origin: inherit;
+  animation: inherit;
+}
+.loader-bt::after { animation-duration: 2s; }
+@keyframes loader-bt-spin {
+  100% { transform: rotate(1turn); }
+}
+\`;
+
+interface Props {
+  accent?: string;
+}
+
+// Usage: <LoaderGyroscopicTriangles />
+// On a green background pass accent="#C5A059"
+export function LoaderGyroscopicTriangles({ accent = '#1B4D3E' }: Props) {
+  return (
+    <>
+      <style>{\`\${css}\`}</style>
+      <div
+        className="loader-bt"
+        role="status"
+        aria-label="Loading"
+        style={{ '--accent': accent } as React.CSSProperties}
+      />
+    </>
+  );
+}
+`,
+
+      c: (c) => `import React from 'react';
+
+const css = \`
+.loader-ct {
+  --accent: ${c.accent ?? '#1B4D3E'};
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  transform: rotate(45deg);
+  animation: loader-ct-pulse 2.4s ease-in-out infinite;
+}
+@keyframes loader-ct-pulse {
+  0%, 100% { transform: rotate(45deg) scale(1);   opacity: 1; }
+  50%       { transform: rotate(45deg) scale(0.5); opacity: 0.3; }
+}
+\`;
+
+interface Props {
+  accent?: string;
+}
+
+// Usage: <LoaderPulsingDiamond />
+// On a green background pass accent="#C5A059"
+export function LoaderPulsingDiamond({ accent = '#1B4D3E' }: Props) {
+  return (
+    <>
+      <style>{\`\${css}\`}</style>
+      <div
+        className="loader-ct"
+        role="status"
+        aria-label="Loading"
+        style={{ '--accent': accent } as React.CSSProperties}
+      />
+    </>
+  );
+}
+`,
+
+      e: (c) => `import React from 'react';
+
+const css = \`
+.loader-et {
+  --accent:  ${c.accent  ?? '#1B4D3E'};
+  --accent2: ${c.accent2 ?? '#1C242B'};
+  --base:    ${c.base    ?? '#C5A059'};
+  width: 54px;
+  aspect-ratio: 1;
+  background:
+    linear-gradient( 45deg, var(--accent) 50%, #0000 0),
+    linear-gradient( 45deg, #0000 50%, var(--accent) 0),
+    linear-gradient(-45deg, var(--accent2) 50%, #0000 0),
+    linear-gradient(-45deg, #0000 50%, var(--accent2) 0),
+    linear-gradient(var(--base) 0 0);
+  background-size: 50% 50%;
+  background-repeat: no-repeat;
+  animation: loader-et-expand 1.2s infinite alternate cubic-bezier(.4,0,.2,1);
+}
+@keyframes loader-et-expand {
+  0%,  20% {
+    background-position: 50% 50%, 50% 50%, 50%  50%, 50% 50%, 50% 50%;
+    background-size:     50% 50%, 50% 50%, 50%  50%, 50% 50%, 50% 50%;
+  }
+  80%, 100% {
+    background-position: 0 100%, 100% 0, 100% 100%, 0 0, 50% 50%;
+    background-size:     50% 50%, 50% 50%, 50%  50%, 50% 50%, 100% 100%;
+  }
+}
+\`;
+
+interface Props {
+  accent?:  string;
+  accent2?: string;
+  base?:    string;
+}
+
+// Usage: <LoaderExpandingQuadrants />
+// On a green background pass accent="#C5A059" accent2="#F9F8F4" base="#1C242B"
+export function LoaderExpandingQuadrants({
+  accent  = '#1B4D3E',
+  accent2 = '#1C242B',
+  base    = '#C5A059',
+}: Props) {
+  return (
+    <>
+      <style>{\`\${css}\`}</style>
+      <div
+        className="loader-et"
+        role="status"
+        aria-label="Loading"
+        style={{
+          '--accent':  accent,
+          '--accent2': accent2,
+          '--base':    base,
+        } as React.CSSProperties}
+      />
+    </>
+  );
+}
+`,
+
+      d: (c) => `import React from 'react';
+
+const css = \`
+.loader-dt {
+  --accent: ${c.accent ?? '#1B4D3E'};
+  width: 48px;
+  height: 48px;
+  position: relative;
+}
+.loader-dt::before,
+.loader-dt::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+.loader-dt::before {
+  inset: 0;
+  border: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.loader-dt::after {
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  top: -5px;
+  left: 50%;
+  translate: -50% 0;
+  animation: loader-dt-orbit 2s linear infinite;
+  transform-origin: 50% calc(24px + 5px);
+}
+@keyframes loader-dt-orbit {
+  to { rotate: 1turn; }
+}
+\`;
+
+interface Props {
+  accent?: string;
+}
+
+// Usage: <LoaderOrbitingDot />
+// On a green background pass accent="#C5A059"
+export function LoaderOrbitingDot({ accent = '#1B4D3E' }: Props) {
+  return (
+    <>
+      <style>{\`\${css}\`}</style>
+      <div
+        className="loader-dt"
+        role="status"
+        aria-label="Loading"
+        style={{ '--accent': accent } as React.CSSProperties}
+      />
+    </>
+  );
+}
+`,
+
+      f: (c) => `import React from 'react';
+
+const css = \`
+.loader-ft {
+  --accent: ${c.accent ?? '#1B4D3E'};
+  width: 50px;
+  aspect-ratio: 1.154;
+  position: relative;
+  background: conic-gradient(from 120deg at 50% 64%, #0000, var(--accent) 1deg 120deg, #0000 121deg);
+  animation: loader-ft-snap 1.5s infinite cubic-bezier(0.3,1,0,1);
+}
+.loader-ft::before,
+.loader-ft::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  transform-origin: 50% 66%;
+  animation: loader-ft-breathe 1.5s infinite;
+}
+.loader-ft::after { --s: -1; }
+@keyframes loader-ft-snap {
+  0%,   30%      { transform: rotate(0); }
+  70%            { transform: rotate(120deg); }
+  70.01%, 100%   { transform: rotate(360deg); }
+}
+@keyframes loader-ft-breathe {
+  0%      { transform: rotate(calc(var(--s,1)*120deg)) translate(0); }
+  30%,70% { transform: rotate(calc(var(--s,1)*120deg)) translate(calc(var(--s,1)*-5px), 10px); }
+  100%    { transform: rotate(calc(var(--s,1)*120deg)) translate(0); }
+}
+\`;
+
+interface Props {
+  accent?: string;
+}
+
+// Usage: <LoaderTriBladeBreathe />
+// On a green background pass accent="#C5A059"
+export function LoaderTriBladeBreathe({ accent = '#1B4D3E' }: Props) {
+  return (
+    <>
+      <style>{\`\${css}\`}</style>
+      <div
+        className="loader-ft"
+        role="status"
+        aria-label="Loading"
+        style={{ '--accent': accent } as React.CSSProperties}
+      />
+    </>
+  );
+}
+`,
+
+      g: (c) => `import React from 'react';
+
+const css = \`
+.loader-gt {
+  --accent: ${c.accent ?? '#1B4D3E'};
+  --shell:  ${c.shell  ?? '#1C242B'};
+  position: relative;
+  width: 56px;
+  height: 56px;
+  background-color: var(--shell);
+  transform: rotate(45deg);
+  overflow: hidden;
+}
+.loader-gt::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  margin: auto;
+  background: var(--accent);
+}
+.loader-gt::before {
+  content: '';
+  position: absolute;
+  inset: -15px;
+  margin: auto;
+  background: #C5A059;
+  animation: loader-gt-sweep 2s linear infinite;
+}
+@keyframes loader-gt-sweep {
+  0%,  10% { transform: translate(-64px, -64px) rotate(-45deg); }
+  90%, 100% { transform: translate(0px, 0px)   rotate(-45deg); }
+}
+\`;
+
+interface Props {
+  accent?: string;
+  shell?:  string;
+}
+
+// Usage: <LoaderDiamondSweep />
+// On a green background pass accent="#C5A059" shell="#1C242B"
+export function LoaderDiamondSweep({ accent = '#1B4D3E', shell = '#1C242B' }: Props) {
+  return (
+    <>
+      <style>{\`\${css}\`}</style>
+      <div
+        className="loader-gt"
+        role="status"
+        aria-label="Loading"
+        style={{ '--accent': accent, '--shell': shell } as React.CSSProperties}
+      />
+    </>
+  );
+}
+`,
+    };
+
+    const names = {
+      a: 'loader-a-glowing-triangle',
+      b: 'loader-b-gyroscopic-triangles',
+      c: 'loader-c-pulsing-diamond',
+      e: 'loader-e-expanding-quadrants',
+      d: 'loader-d-orbiting-dot',
+      f: 'loader-f-tri-blade-breathe',
+      g: 'loader-g-diamond-sweep',
+    };
+
+    function download(id) {
+      const blob = new Blob([css[id]], { type: 'text/css' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = `axiom-trust-${names[id]}.css`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function downloadTsx(id) {
+      const content = tsx[id]({});
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = `axiom-trust-${names[id]}.tsx`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+
+</body>
+</html>
