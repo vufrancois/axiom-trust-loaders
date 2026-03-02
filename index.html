@@ -332,6 +332,154 @@
       90%, 100% { transform: translate(0px, 0px)   rotate(-45deg); }
     }
 
+    /* ════════════════════════════════════════
+       LINE FAMILY — H through M
+       Stroke-only, single --accent, geometric
+       ════════════════════════════════════════ */
+
+    /* H — Arc Spinner (circle) */
+    .loader-h {
+      --accent: #1B4D3E;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid color-mix(in srgb, var(--accent) 20%, transparent);
+      border-top-color: var(--accent);
+      animation: spin-h 1s linear infinite;
+    }
+    @keyframes spin-h { to { rotate: 1turn; } }
+
+    /* I — Dual Counter-Orbit (circle) */
+    .loader-i {
+      --accent: #1B4D3E;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1.5px solid color-mix(in srgb, var(--accent) 20%, transparent);
+      outline: 1.5px solid color-mix(in srgb, var(--accent) 12%, transparent);
+      outline-offset: -15px;
+      position: relative;
+    }
+    .loader-i::before,
+    .loader-i::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .loader-i::before {
+      width: 8px;
+      height: 8px;
+      top: -4px;
+      left: 50%;
+      translate: -50% 0;
+      transform-origin: 50% calc(22px + 4px);
+      animation: orbit-i-cw 2s linear infinite;
+    }
+    .loader-i::after {
+      width: 6px;
+      height: 6px;
+      opacity: 0.7;
+      top: 50%;
+      left: 50%;
+      translate: -50% calc(-11px - 3px);
+      transform-origin: 50% calc(11px + 3px);
+      animation: orbit-i-ccw 1.1s linear infinite;
+    }
+    @keyframes orbit-i-cw  { to { rotate:  1turn; } }
+    @keyframes orbit-i-ccw { to { rotate: -1turn; } }
+
+    /* J — Sweep Ring (circle) */
+    .loader-j {
+      --accent: #1B4D3E;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: conic-gradient(#0000 25%, var(--accent));
+      -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 3px), #fff 0);
+      mask: radial-gradient(farthest-side, #0000 calc(100% - 3px), #fff 0);
+      animation: spin-j 1.2s linear infinite;
+    }
+    @keyframes spin-j { to { rotate: 1turn; } }
+
+    /* K — Counter Triangles (triangle) */
+    .loader-k {
+      --accent: #1B4D3E;
+      width: 48px;
+      aspect-ratio: 1.154;
+      display: grid;
+      color: var(--accent);
+      background:
+        linear-gradient(to bottom left,  #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) right/50% 100%,
+        linear-gradient(to bottom right, #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) left /50% 100%,
+        linear-gradient(currentColor 0 0) bottom/100% 2px;
+      background-repeat: no-repeat;
+      transform-origin: 50% 66%;
+      animation: spin-k-cw 3s linear infinite;
+    }
+    .loader-k::before {
+      content: "";
+      grid-area: 1/1;
+      background: inherit;
+      transform: scale(0.55);
+      transform-origin: 50% 66%;
+      animation: spin-k-ccw 1.8s linear infinite;
+    }
+    @keyframes spin-k-cw  { to { transform: rotate( 1turn); } }
+    @keyframes spin-k-ccw { to { transform: rotate(-1turn); } }
+
+    /* L — Counter Squares (square) */
+    .loader-l {
+      --accent: #1B4D3E;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      animation: spin-l-cw 3s linear infinite;
+    }
+    .loader-l::before,
+    .loader-l::after {
+      content: "";
+      grid-area: 1/1;
+      border: 2px solid var(--accent);
+    }
+    .loader-l::before {
+      width: 100%;
+      height: 100%;
+    }
+    .loader-l::after {
+      width: 60%;
+      height: 60%;
+      border-width: 1.5px;
+      opacity: 0.7;
+      animation: spin-l-ccw 1.8s linear infinite;
+    }
+    @keyframes spin-l-cw  { to { rotate:  1turn; } }
+    @keyframes spin-l-ccw { to { rotate: -1turn; } }
+
+    /* M — Square + Orbiting Dot (square) */
+    .loader-m {
+      --accent: #1B4D3E;
+      width: 44px;
+      height: 44px;
+      position: relative;
+      border: 1.5px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    }
+    .loader-m::after {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      top: -4px;
+      left: 50%;
+      translate: -50% 0;
+      transform-origin: 50% calc(22px + 4px);
+      animation: orbit-m 2s linear infinite;
+    }
+    @keyframes orbit-m { to { rotate: 1turn; } }
+
   </style>
 </head>
 <body>
@@ -581,6 +729,147 @@
     </div>
   </div>
 
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════
+       LINE FAMILY — H through M
+       Stroke-only variants in the B/D style
+       ══════════════════════════════════════ -->
+  <div class="section__header" style="flex-direction:column; gap:4px; margin-bottom:-24px;">
+    <h1 style="margin:0;">Line Family</h1>
+    <span style="font-size:11px; color:#64748B; letter-spacing:0.1em;">Stroke-only variations in the B &amp; D style</span>
+  </div>
+
+  <!-- H: Arc Spinner -->
+  <div class="section" data-loader="h">
+    <div class="section__header">
+      <span class="section__title">H — Arc Spinner</span>
+      <button class="btn-download" onclick="download('h')">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        CSS
+      </button>
+      <button class="btn-download btn-download--tsx" onclick="downloadTsx(this.closest('.section').dataset.loader)" title="Download React component">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        TSX
+      </button>
+    </div>
+    <div class="cards">
+      <div class="card card--dark"><div class="loader-h"></div><span class="card__label">Axiom Trust</span></div>
+      <div class="card card--light"><div class="loader-h"></div><span class="card__label">Axiom Trust</span></div>
+      <div class="card card--forest"><div class="loader-h" style="--accent:#C5A059;"></div><span class="card__label">Axiom Trust</span></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- I: Dual Counter-Orbit -->
+  <div class="section" data-loader="i">
+    <div class="section__header">
+      <span class="section__title">I — Dual Counter-Orbit</span>
+      <button class="btn-download" onclick="download('i')">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        CSS
+      </button>
+      <button class="btn-download btn-download--tsx" onclick="downloadTsx(this.closest('.section').dataset.loader)" title="Download React component">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        TSX
+      </button>
+    </div>
+    <div class="cards">
+      <div class="card card--dark"><div class="loader-i"></div><span class="card__label">Axiom Trust</span></div>
+      <div class="card card--light"><div class="loader-i"></div><span class="card__label">Axiom Trust</span></div>
+      <div class="card card--forest"><div class="loader-i" style="--accent:#C5A059;"></div><span class="card__label">Axiom Trust</span></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- J: Sweep Ring -->
+  <div class="section" data-loader="j">
+    <div class="section__header">
+      <span class="section__title">J — Sweep Ring</span>
+      <button class="btn-download" onclick="download('j')">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        CSS
+      </button>
+      <button class="btn-download btn-download--tsx" onclick="downloadTsx(this.closest('.section').dataset.loader)" title="Download React component">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        TSX
+      </button>
+    </div>
+    <div class="cards">
+      <div class="card card--dark"><div class="loader-j"></div><span class="card__label">Axiom Trust</span></div>
+      <div class="card card--light"><div class="loader-j"></div><span class="card__label">Axiom Trust</span></div>
+      <div class="card card--forest"><div class="loader-j" style="--accent:#C5A059;"></div><span class="card__label">Axiom Trust</span></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- K: Counter Triangles -->
+  <div class="section" data-loader="k">
+    <div class="section__header">
+      <span class="section__title">K — Counter Triangles</span>
+      <button class="btn-download" onclick="download('k')">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        CSS
+      </button>
+      <button class="btn-download btn-download--tsx" onclick="downloadTsx(this.closest('.section').dataset.loader)" title="Download React component">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        TSX
+      </button>
+    </div>
+    <div class="cards">
+      <div class="card card--dark"><div class="loader-k"></div><span class="card__label">Axiom Trust</span></div>
+      <div class="card card--light"><div class="loader-k"></div><span class="card__label">Axiom Trust</span></div>
+      <div class="card card--forest"><div class="loader-k" style="--accent:#C5A059;"></div><span class="card__label">Axiom Trust</span></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- L: Counter Squares -->
+  <div class="section" data-loader="l">
+    <div class="section__header">
+      <span class="section__title">L — Counter Squares</span>
+      <button class="btn-download" onclick="download('l')">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        CSS
+      </button>
+      <button class="btn-download btn-download--tsx" onclick="downloadTsx(this.closest('.section').dataset.loader)" title="Download React component">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        TSX
+      </button>
+    </div>
+    <div class="cards">
+      <div class="card card--dark"><div class="loader-l"></div><span class="card__label">Axiom Trust</span></div>
+      <div class="card card--light"><div class="loader-l"></div><span class="card__label">Axiom Trust</span></div>
+      <div class="card card--forest"><div class="loader-l" style="--accent:#C5A059;"></div><span class="card__label">Axiom Trust</span></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- M: Square + Orbiting Dot -->
+  <div class="section" data-loader="m">
+    <div class="section__header">
+      <span class="section__title">M — Square Orbit</span>
+      <button class="btn-download" onclick="download('m')">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        CSS
+      </button>
+      <button class="btn-download btn-download--tsx" onclick="downloadTsx(this.closest('.section').dataset.loader)" title="Download React component">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        TSX
+      </button>
+    </div>
+    <div class="cards">
+      <div class="card card--dark"><div class="loader-m"></div><span class="card__label">Axiom Trust</span></div>
+      <div class="card card--light"><div class="loader-m"></div><span class="card__label">Axiom Trust</span></div>
+      <div class="card card--forest"><div class="loader-m" style="--accent:#C5A059;"></div><span class="card__label">Axiom Trust</span></div>
+    </div>
+  </div>
+
   <script>
     const css = {
       a: `/* HTML: <div class="loader"></div> */
@@ -774,6 +1063,151 @@
   0%,  10% { transform: translate(-64px, -64px) rotate(-45deg); }
   90%, 100% { transform: translate(0px, 0px)   rotate(-45deg); }
 }`,
+
+      // ── Line Family ────────────────────────────────────────────────────────
+
+      h: `/* HTML: <div class="loader"></div> */
+.loader {
+  --accent: #1B4D3E;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  border-top-color: var(--accent);
+  animation: loader-spin 1s linear infinite;
+}
+@keyframes loader-spin { to { rotate: 1turn; } }`,
+
+      i: `/* HTML: <div class="loader"></div> */
+.loader {
+  --accent: #1B4D3E;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  outline: 1.5px solid color-mix(in srgb, var(--accent) 12%, transparent);
+  outline-offset: -15px;
+  position: relative;
+}
+.loader::before,
+.loader::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.loader::before {
+  width: 8px;
+  height: 8px;
+  top: -4px;
+  left: 50%;
+  translate: -50% 0;
+  transform-origin: 50% calc(22px + 4px);
+  animation: loader-cw 2s linear infinite;
+}
+.loader::after {
+  width: 6px;
+  height: 6px;
+  opacity: 0.7;
+  top: 50%;
+  left: 50%;
+  translate: -50% calc(-11px - 3px);
+  transform-origin: 50% calc(11px + 3px);
+  animation: loader-ccw 1.1s linear infinite;
+}
+@keyframes loader-cw  { to { rotate:  1turn; } }
+@keyframes loader-ccw { to { rotate: -1turn; } }`,
+
+      j: `/* HTML: <div class="loader"></div> */
+.loader {
+  --accent: #1B4D3E;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: conic-gradient(#0000 25%, var(--accent));
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 3px), #fff 0);
+  mask: radial-gradient(farthest-side, #0000 calc(100% - 3px), #fff 0);
+  animation: loader-spin 1.2s linear infinite;
+}
+@keyframes loader-spin { to { rotate: 1turn; } }`,
+
+      k: `/* HTML: <div class="loader"></div> */
+.loader {
+  --accent: #1B4D3E;
+  width: 48px;
+  aspect-ratio: 1.154;
+  display: grid;
+  color: var(--accent);
+  background:
+    linear-gradient(to bottom left,  #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) right/50% 100%,
+    linear-gradient(to bottom right, #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) left /50% 100%,
+    linear-gradient(currentColor 0 0) bottom/100% 2px;
+  background-repeat: no-repeat;
+  transform-origin: 50% 66%;
+  animation: loader-cw 3s linear infinite;
+}
+.loader::before {
+  content: "";
+  grid-area: 1/1;
+  background: inherit;
+  transform: scale(0.55);
+  transform-origin: 50% 66%;
+  animation: loader-ccw 1.8s linear infinite;
+}
+@keyframes loader-cw  { to { transform: rotate( 1turn); } }
+@keyframes loader-ccw { to { transform: rotate(-1turn); } }`,
+
+      l: `/* HTML: <div class="loader"></div> */
+.loader {
+  --accent: #1B4D3E;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  animation: loader-cw 3s linear infinite;
+}
+.loader::before,
+.loader::after {
+  content: "";
+  grid-area: 1/1;
+  border: 2px solid var(--accent);
+}
+.loader::before {
+  width: 100%;
+  height: 100%;
+}
+.loader::after {
+  width: 60%;
+  height: 60%;
+  border-width: 1.5px;
+  opacity: 0.7;
+  animation: loader-ccw 1.8s linear infinite;
+}
+@keyframes loader-cw  { to { rotate:  1turn; } }
+@keyframes loader-ccw { to { rotate: -1turn; } }`,
+
+      m: `/* HTML: <div class="loader"></div> */
+.loader {
+  --accent: #1B4D3E;
+  width: 44px;
+  height: 44px;
+  position: relative;
+  border: 1.5px solid color-mix(in srgb, var(--accent) 25%, transparent);
+}
+.loader::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  top: -4px;
+  left: 50%;
+  translate: -50% 0;
+  transform-origin: 50% calc(22px + 4px);
+  animation: loader-orbit 2s linear infinite;
+}
+@keyframes loader-orbit { to { rotate: 1turn; } }`,
     };
 
     // ── React TSX component templates ──────────────────────────────────────
@@ -1134,6 +1568,295 @@ export function LoaderDiamondSweep({ accent = '#1B4D3E', shell = '#1C242B' }: Pr
   );
 }
 `,
+
+      // ── Line Family ────────────────────────────────────────────────────────
+
+      h: (c) => `import React from 'react';
+
+const css = \`
+.loader-ht {
+  --accent: ${c.accent ?? '#1B4D3E'};
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  border-top-color: var(--accent);
+  animation: loader-ht-spin 1s linear infinite;
+}
+@keyframes loader-ht-spin { to { rotate: 1turn; } }
+\`;
+
+interface Props {
+  accent?: string;
+}
+
+// Usage: <LoaderArcSpinner />
+// On a green background pass accent="#C5A059"
+export function LoaderArcSpinner({ accent = '#1B4D3E' }: Props) {
+  return (
+    <>
+      <style>{\`\${css}\`}</style>
+      <div
+        className="loader-ht"
+        role="status"
+        aria-label="Loading"
+        style={{ '--accent': accent } as React.CSSProperties}
+      />
+    </>
+  );
+}
+`,
+
+      i: (c) => `import React from 'react';
+
+const css = \`
+.loader-it {
+  --accent: ${c.accent ?? '#1B4D3E'};
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  outline: 1.5px solid color-mix(in srgb, var(--accent) 12%, transparent);
+  outline-offset: -15px;
+  position: relative;
+}
+.loader-it::before,
+.loader-it::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.loader-it::before {
+  width: 8px;
+  height: 8px;
+  top: -4px;
+  left: 50%;
+  translate: -50% 0;
+  transform-origin: 50% calc(22px + 4px);
+  animation: loader-it-cw 2s linear infinite;
+}
+.loader-it::after {
+  width: 6px;
+  height: 6px;
+  opacity: 0.7;
+  top: 50%;
+  left: 50%;
+  translate: -50% calc(-11px - 3px);
+  transform-origin: 50% calc(11px + 3px);
+  animation: loader-it-ccw 1.1s linear infinite;
+}
+@keyframes loader-it-cw  { to { rotate:  1turn; } }
+@keyframes loader-it-ccw { to { rotate: -1turn; } }
+\`;
+
+interface Props {
+  accent?: string;
+}
+
+// Usage: <LoaderDualCounterOrbit />
+// On a green background pass accent="#C5A059"
+export function LoaderDualCounterOrbit({ accent = '#1B4D3E' }: Props) {
+  return (
+    <>
+      <style>{\`\${css}\`}</style>
+      <div
+        className="loader-it"
+        role="status"
+        aria-label="Loading"
+        style={{ '--accent': accent } as React.CSSProperties}
+      />
+    </>
+  );
+}
+`,
+
+      j: (c) => `import React from 'react';
+
+const css = \`
+.loader-jt {
+  --accent: ${c.accent ?? '#1B4D3E'};
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: conic-gradient(#0000 25%, var(--accent));
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 3px), #fff 0);
+  mask: radial-gradient(farthest-side, #0000 calc(100% - 3px), #fff 0);
+  animation: loader-jt-spin 1.2s linear infinite;
+}
+@keyframes loader-jt-spin { to { rotate: 1turn; } }
+\`;
+
+interface Props {
+  accent?: string;
+}
+
+// Usage: <LoaderSweepRing />
+// On a green background pass accent="#C5A059"
+export function LoaderSweepRing({ accent = '#1B4D3E' }: Props) {
+  return (
+    <>
+      <style>{\`\${css}\`}</style>
+      <div
+        className="loader-jt"
+        role="status"
+        aria-label="Loading"
+        style={{ '--accent': accent } as React.CSSProperties}
+      />
+    </>
+  );
+}
+`,
+
+      k: (c) => `import React from 'react';
+
+const css = \`
+.loader-kt {
+  --accent: ${c.accent ?? '#1B4D3E'};
+  width: 48px;
+  aspect-ratio: 1.154;
+  display: grid;
+  color: var(--accent);
+  background:
+    linear-gradient(to bottom left,  #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) right/50% 100%,
+    linear-gradient(to bottom right, #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) left /50% 100%,
+    linear-gradient(currentColor 0 0) bottom/100% 2px;
+  background-repeat: no-repeat;
+  transform-origin: 50% 66%;
+  animation: loader-kt-cw 3s linear infinite;
+}
+.loader-kt::before {
+  content: "";
+  grid-area: 1/1;
+  background: inherit;
+  transform: scale(0.55);
+  transform-origin: 50% 66%;
+  animation: loader-kt-ccw 1.8s linear infinite;
+}
+@keyframes loader-kt-cw  { to { transform: rotate( 1turn); } }
+@keyframes loader-kt-ccw { to { transform: rotate(-1turn); } }
+\`;
+
+interface Props {
+  accent?: string;
+}
+
+// Usage: <LoaderCounterTriangles />
+// On a green background pass accent="#C5A059"
+export function LoaderCounterTriangles({ accent = '#1B4D3E' }: Props) {
+  return (
+    <>
+      <style>{\`\${css}\`}</style>
+      <div
+        className="loader-kt"
+        role="status"
+        aria-label="Loading"
+        style={{ '--accent': accent } as React.CSSProperties}
+      />
+    </>
+  );
+}
+`,
+
+      l: (c) => `import React from 'react';
+
+const css = \`
+.loader-lt {
+  --accent: ${c.accent ?? '#1B4D3E'};
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  animation: loader-lt-cw 3s linear infinite;
+}
+.loader-lt::before,
+.loader-lt::after {
+  content: "";
+  grid-area: 1/1;
+  border: 2px solid var(--accent);
+}
+.loader-lt::before {
+  width: 100%;
+  height: 100%;
+}
+.loader-lt::after {
+  width: 60%;
+  height: 60%;
+  border-width: 1.5px;
+  opacity: 0.7;
+  animation: loader-lt-ccw 1.8s linear infinite;
+}
+@keyframes loader-lt-cw  { to { rotate:  1turn; } }
+@keyframes loader-lt-ccw { to { rotate: -1turn; } }
+\`;
+
+interface Props {
+  accent?: string;
+}
+
+// Usage: <LoaderCounterSquares />
+// On a green background pass accent="#C5A059"
+export function LoaderCounterSquares({ accent = '#1B4D3E' }: Props) {
+  return (
+    <>
+      <style>{\`\${css}\`}</style>
+      <div
+        className="loader-lt"
+        role="status"
+        aria-label="Loading"
+        style={{ '--accent': accent } as React.CSSProperties}
+      />
+    </>
+  );
+}
+`,
+
+      m: (c) => `import React from 'react';
+
+const css = \`
+.loader-mt {
+  --accent: ${c.accent ?? '#1B4D3E'};
+  width: 44px;
+  height: 44px;
+  position: relative;
+  border: 1.5px solid color-mix(in srgb, var(--accent) 25%, transparent);
+}
+.loader-mt::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  top: -4px;
+  left: 50%;
+  translate: -50% 0;
+  transform-origin: 50% calc(22px + 4px);
+  animation: loader-mt-orbit 2s linear infinite;
+}
+@keyframes loader-mt-orbit { to { rotate: 1turn; } }
+\`;
+
+interface Props {
+  accent?: string;
+}
+
+// Usage: <LoaderSquareOrbit />
+// On a green background pass accent="#C5A059"
+export function LoaderSquareOrbit({ accent = '#1B4D3E' }: Props) {
+  return (
+    <>
+      <style>{\`\${css}\`}</style>
+      <div
+        className="loader-mt"
+        role="status"
+        aria-label="Loading"
+        style={{ '--accent': accent } as React.CSSProperties}
+      />
+    </>
+  );
+}
+`,
     };
 
     const names = {
@@ -1144,6 +1867,12 @@ export function LoaderDiamondSweep({ accent = '#1B4D3E', shell = '#1C242B' }: Pr
       d: 'loader-d-orbiting-dot',
       f: 'loader-f-tri-blade-breathe',
       g: 'loader-g-diamond-sweep',
+      h: 'loader-h-arc-spinner',
+      i: 'loader-i-dual-counter-orbit',
+      j: 'loader-j-sweep-ring',
+      k: 'loader-k-counter-triangles',
+      l: 'loader-l-counter-squares',
+      m: 'loader-m-square-orbit',
     };
 
     function download(id) {
