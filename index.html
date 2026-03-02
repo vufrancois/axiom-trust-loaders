@@ -379,23 +379,30 @@
     }
     @keyframes spin-j { to { rotate: 1turn; } }
 
-    /* K — Triangle Breathe (triangle) */
+    /* K — Border Draw (square) */
     .loader-k {
       --accent: #1B4D3E;
-      width: 48px;
-      aspect-ratio: 1.154;
-      color: var(--accent);
-      background:
-        linear-gradient(to bottom left,  #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) right/50% 100%,
-        linear-gradient(to bottom right, #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) left /50% 100%,
-        linear-gradient(currentColor 0 0) bottom/100% 2px;
-      background-repeat: no-repeat;
-      transform-origin: 50% 66%;
-      animation: breathe-k 2s ease-in-out infinite;
+      --k: no-repeat linear-gradient(var(--accent) 0 0);
+      width: 40px;
+      aspect-ratio: 1;
+      background: var(--k) 0 0, var(--k) 100% 0, var(--k) 100% 100%, var(--k) 0 100%;
+      animation: draw-k1 2s infinite, draw-k2 2s infinite;
     }
-    @keyframes breathe-k {
-      0%, 100% { transform: scale(1);   opacity: 1; }
-      50%       { transform: scale(0.6); opacity: 0.25; }
+    @keyframes draw-k1 {
+      0%    { background-size: 0    3px, 3px 0,    0    3px, 3px 0    }
+      12.5% { background-size: 100% 3px, 3px 0,    0    3px, 3px 0    }
+      25%   { background-size: 100% 3px, 3px 100%, 0    3px, 3px 0    }
+      37.5% { background-size: 100% 3px, 3px 100%, 100% 3px, 3px 0    }
+      45%,
+      55%   { background-size: 100% 3px, 3px 100%, 100% 3px, 3px 100% }
+      62.5% { background-size: 0    3px, 3px 100%, 100% 3px, 3px 100% }
+      75%   { background-size: 0    3px, 3px 0,    100% 3px, 3px 100% }
+      87.5% { background-size: 0    3px, 3px 0,    0    3px, 3px 100% }
+      100%  { background-size: 0    3px, 3px 0,    0    3px, 3px 0    }
+    }
+    @keyframes draw-k2 {
+      0%,49.9% { background-position: 0 0,    100% 0,    100% 100%, 0 100% }
+      50%,100% { background-position: 100% 0, 100% 100%, 0    100%, 0 0    }
     }
 
     /* L — Nested Squares (square) */
@@ -423,17 +430,22 @@
     .loader-l::after  { width: 50%; animation-duration: 2s; }
     @keyframes spin-l { 100% { transform: rotate(1turn); } }
 
-    /* M — Diamond Oscillation (square) */
+    /* M — Corner Chase (circle) */
     .loader-m {
       --accent: #1B4D3E;
+      --g: radial-gradient(farthest-side, #0000 calc(95% - 2px), var(--accent) calc(100% - 2px) 98%, #0000 101%) no-repeat;
       width: 44px;
-      height: 44px;
-      border: 2px solid var(--accent);
-      animation: diamond-m 2s ease-in-out infinite;
+      aspect-ratio: 1;
+      background: var(--g), var(--g), var(--g);
+      background-size: 18px 18px;
+      animation: chase-m 1.5s infinite;
     }
-    @keyframes diamond-m {
-      0%, 100% { transform: rotate(0deg)  scale(1); }
-      50%       { transform: rotate(45deg) scale(0.707); }
+    @keyframes chase-m {
+      0%   { background-position: 0 0,       0 100%,   100% 100%; }
+      25%  { background-position: 100% 0,    0 100%,   100% 100%; }
+      50%  { background-position: 100% 0,    0 0,      100% 100%; }
+      75%  { background-position: 100% 0,    0 0,      0 100%;    }
+      100% { background-position: 100% 100%, 0 0,      0 100%;    }
     }
 
   </style>
@@ -765,7 +777,7 @@
   <!-- K: Counter Triangles -->
   <div class="section" data-loader="k">
     <div class="section__header">
-      <span class="section__title">K — Triangle Breathe</span>
+      <span class="section__title">K — Border Draw</span>
       <button class="btn-download" onclick="download('k')">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         CSS
@@ -809,7 +821,7 @@
   <!-- M: Square + Orbiting Dot -->
   <div class="section" data-loader="m">
     <div class="section__header">
-      <span class="section__title">M — Diamond Oscillation</span>
+      <span class="section__title">M — Corner Chase</span>
       <button class="btn-download" onclick="download('m')">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         CSS
@@ -1067,20 +1079,27 @@
       k: `/* HTML: <div class="loader"></div> */
 .loader {
   --accent: #1B4D3E;
-  width: 48px;
-  aspect-ratio: 1.154;
-  color: var(--accent);
-  background:
-    linear-gradient(to bottom left,  #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) right/50% 100%,
-    linear-gradient(to bottom right, #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) left /50% 100%,
-    linear-gradient(currentColor 0 0) bottom/100% 2px;
-  background-repeat: no-repeat;
-  transform-origin: 50% 66%;
-  animation: loader-breathe 2s ease-in-out infinite;
+  --c: no-repeat linear-gradient(var(--accent) 0 0);
+  width: 40px;
+  aspect-ratio: 1;
+  background: var(--c) 0 0, var(--c) 100% 0, var(--c) 100% 100%, var(--c) 0 100%;
+  animation: loader-draw1 2s infinite, loader-draw2 2s infinite;
 }
-@keyframes loader-breathe {
-  0%, 100% { transform: scale(1);   opacity: 1; }
-  50%       { transform: scale(0.6); opacity: 0.25; }
+@keyframes loader-draw1 {
+  0%    { background-size: 0    3px, 3px 0,    0    3px, 3px 0    }
+  12.5% { background-size: 100% 3px, 3px 0,    0    3px, 3px 0    }
+  25%   { background-size: 100% 3px, 3px 100%, 0    3px, 3px 0    }
+  37.5% { background-size: 100% 3px, 3px 100%, 100% 3px, 3px 0    }
+  45%,
+  55%   { background-size: 100% 3px, 3px 100%, 100% 3px, 3px 100% }
+  62.5% { background-size: 0    3px, 3px 100%, 100% 3px, 3px 100% }
+  75%   { background-size: 0    3px, 3px 0,    100% 3px, 3px 100% }
+  87.5% { background-size: 0    3px, 3px 0,    0    3px, 3px 100% }
+  100%  { background-size: 0    3px, 3px 0,    0    3px, 3px 0    }
+}
+@keyframes loader-draw2 {
+  0%,49.9% { background-position: 0 0,    100% 0,    100% 100%, 0 100% }
+  50%,100% { background-position: 100% 0, 100% 100%, 0    100%, 0 0    }
 }`,
 
       l: `/* HTML: <div class="loader"></div> */
@@ -1111,14 +1130,19 @@
       m: `/* HTML: <div class="loader"></div> */
 .loader {
   --accent: #1B4D3E;
+  --g: radial-gradient(farthest-side, #0000 calc(95% - 2px), var(--accent) calc(100% - 2px) 98%, #0000 101%) no-repeat;
   width: 44px;
-  height: 44px;
-  border: 2px solid var(--accent);
-  animation: loader-diamond 2s ease-in-out infinite;
+  aspect-ratio: 1;
+  background: var(--g), var(--g), var(--g);
+  background-size: 18px 18px;
+  animation: loader-chase 1.5s infinite;
 }
-@keyframes loader-diamond {
-  0%, 100% { transform: rotate(0deg)  scale(1); }
-  50%       { transform: rotate(45deg) scale(0.707); }
+@keyframes loader-chase {
+  0%   { background-position: 0 0,       0 100%,   100% 100%; }
+  25%  { background-position: 100% 0,    0 100%,   100% 100%; }
+  50%  { background-position: 100% 0,    0 0,      100% 100%; }
+  75%  { background-position: 100% 0,    0 0,      0 100%;    }
+  100% { background-position: 100% 100%, 0 0,      0 100%;    }
 }`,
     };
 
@@ -1602,20 +1626,27 @@ export function LoaderSweepRing({ accent = '#1B4D3E' }: Props) {
 const css = \`
 .loader-kt {
   --accent: ${c.accent ?? '#1B4D3E'};
-  width: 48px;
-  aspect-ratio: 1.154;
-  color: var(--accent);
-  background:
-    linear-gradient(to bottom left,  #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) right/50% 100%,
-    linear-gradient(to bottom right, #0000 calc(50% - 1px), currentColor 0 calc(50% + 1px), #0000 0) left /50% 100%,
-    linear-gradient(currentColor 0 0) bottom/100% 2px;
-  background-repeat: no-repeat;
-  transform-origin: 50% 66%;
-  animation: loader-kt-breathe 2s ease-in-out infinite;
+  --c: no-repeat linear-gradient(var(--accent) 0 0);
+  width: 40px;
+  aspect-ratio: 1;
+  background: var(--c) 0 0, var(--c) 100% 0, var(--c) 100% 100%, var(--c) 0 100%;
+  animation: loader-kt-draw1 2s infinite, loader-kt-draw2 2s infinite;
 }
-@keyframes loader-kt-breathe {
-  0%, 100% { transform: scale(1);   opacity: 1; }
-  50%       { transform: scale(0.6); opacity: 0.25; }
+@keyframes loader-kt-draw1 {
+  0%    { background-size: 0    3px, 3px 0,    0    3px, 3px 0    }
+  12.5% { background-size: 100% 3px, 3px 0,    0    3px, 3px 0    }
+  25%   { background-size: 100% 3px, 3px 100%, 0    3px, 3px 0    }
+  37.5% { background-size: 100% 3px, 3px 100%, 100% 3px, 3px 0    }
+  45%,
+  55%   { background-size: 100% 3px, 3px 100%, 100% 3px, 3px 100% }
+  62.5% { background-size: 0    3px, 3px 100%, 100% 3px, 3px 100% }
+  75%   { background-size: 0    3px, 3px 0,    100% 3px, 3px 100% }
+  87.5% { background-size: 0    3px, 3px 0,    0    3px, 3px 100% }
+  100%  { background-size: 0    3px, 3px 0,    0    3px, 3px 0    }
+}
+@keyframes loader-kt-draw2 {
+  0%,49.9% { background-position: 0 0,    100% 0,    100% 100%, 0 100% }
+  50%,100% { background-position: 100% 0, 100% 100%, 0    100%, 0 0    }
 }
 \`;
 
@@ -1623,9 +1654,9 @@ interface Props {
   accent?: string;
 }
 
-// Usage: <LoaderTriangleBreathe />
+// Usage: <LoaderBorderDraw />
 // On a green background pass accent="#C5A059"
-export function LoaderTriangleBreathe({ accent = '#1B4D3E' }: Props) {
+export function LoaderBorderDraw({ accent = '#1B4D3E' }: Props) {
   return (
     <>
       <style>{\`\${css}\`}</style>
@@ -1694,14 +1725,19 @@ export function LoaderNestedSquares({ accent = '#1B4D3E' }: Props) {
 const css = \`
 .loader-mt {
   --accent: ${c.accent ?? '#1B4D3E'};
+  --g: radial-gradient(farthest-side, #0000 calc(95% - 2px), var(--accent) calc(100% - 2px) 98%, #0000 101%) no-repeat;
   width: 44px;
-  height: 44px;
-  border: 2px solid var(--accent);
-  animation: loader-mt-diamond 2s ease-in-out infinite;
+  aspect-ratio: 1;
+  background: var(--g), var(--g), var(--g);
+  background-size: 18px 18px;
+  animation: loader-mt-chase 1.5s infinite;
 }
-@keyframes loader-mt-diamond {
-  0%, 100% { transform: rotate(0deg)  scale(1); }
-  50%       { transform: rotate(45deg) scale(0.707); }
+@keyframes loader-mt-chase {
+  0%   { background-position: 0 0,       0 100%,   100% 100%; }
+  25%  { background-position: 100% 0,    0 100%,   100% 100%; }
+  50%  { background-position: 100% 0,    0 0,      100% 100%; }
+  75%  { background-position: 100% 0,    0 0,      0 100%;    }
+  100% { background-position: 100% 100%, 0 0,      0 100%;    }
 }
 \`;
 
@@ -1709,9 +1745,9 @@ interface Props {
   accent?: string;
 }
 
-// Usage: <LoaderDiamondOscillation />
+// Usage: <LoaderCornerChase />
 // On a green background pass accent="#C5A059"
-export function LoaderDiamondOscillation({ accent = '#1B4D3E' }: Props) {
+export function LoaderCornerChase({ accent = '#1B4D3E' }: Props) {
   return (
     <>
       <style>{\`\${css}\`}</style>
@@ -1738,9 +1774,9 @@ export function LoaderDiamondOscillation({ accent = '#1B4D3E' }: Props) {
       h: 'loader-h-arc-spinner',
       i: 'loader-i-segmented-spinner',
       j: 'loader-j-sweep-ring',
-      k: 'loader-k-triangle-breathe',
+      k: 'loader-k-border-draw',
       l: 'loader-l-nested-squares',
-      m: 'loader-m-diamond-oscillation',
+      m: 'loader-m-corner-chase',
     };
 
     function download(id) {
