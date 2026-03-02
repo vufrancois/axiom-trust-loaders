@@ -398,36 +398,30 @@
       50%       { transform: scale(0.6); opacity: 0.25; }
     }
 
-    /* L — Corner Brackets (square) */
+    /* L — Nested Squares (square) */
     .loader-l {
       --accent: #1B4D3E;
       width: 44px;
-      height: 44px;
-      position: relative;
-      border: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+      aspect-ratio: 1;
+      color: var(--accent);
+      border: 2px solid;
+      display: grid;
+      box-sizing: border-box;
+      animation: spin-l 4s infinite linear;
     }
     .loader-l::before,
     .loader-l::after {
       content: "";
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      top: 0;
-      left: 0;
-      animation: bracket-l 2.5s linear infinite;
+      grid-area: 1/1;
+      margin: auto;
+      aspect-ratio: 1;
+      border: 2px solid;
+      box-sizing: content-box;
+      animation: inherit;
     }
-    .loader-l::before {
-      border-top: 2px solid var(--accent);
-      border-left: 2px solid var(--accent);
-      transform-origin: 22px 22px;
-    }
-    .loader-l::after {
-      border-bottom: 2px solid var(--accent);
-      border-right: 2px solid var(--accent);
-      translate: 32px 32px;
-      transform-origin: -10px -10px;
-    }
-    @keyframes bracket-l { to { rotate: 1turn; } }
+    .loader-l::before { width: 70.7%; }
+    .loader-l::after  { width: 50%; animation-duration: 2s; }
+    @keyframes spin-l { 100% { transform: rotate(1turn); } }
 
     /* M — Diamond Oscillation (square) */
     .loader-m {
@@ -793,7 +787,7 @@
   <!-- L: Counter Squares -->
   <div class="section" data-loader="l">
     <div class="section__header">
-      <span class="section__title">L — Corner Brackets</span>
+      <span class="section__title">L — Nested Squares</span>
       <button class="btn-download" onclick="download('l')">
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v5.5M2.5 4.5 5 7l2.5-2.5M1.5 9h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         CSS
@@ -1093,32 +1087,26 @@
 .loader {
   --accent: #1B4D3E;
   width: 44px;
-  height: 44px;
-  position: relative;
-  border: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+  aspect-ratio: 1;
+  color: var(--accent);
+  border: 2px solid;
+  display: grid;
+  box-sizing: border-box;
+  animation: loader-spin 4s infinite linear;
 }
 .loader::before,
 .loader::after {
   content: "";
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  top: 0;
-  left: 0;
-  animation: loader-bracket 2.5s linear infinite;
+  grid-area: 1/1;
+  margin: auto;
+  aspect-ratio: 1;
+  border: 2px solid;
+  box-sizing: content-box;
+  animation: inherit;
 }
-.loader::before {
-  border-top: 2px solid var(--accent);
-  border-left: 2px solid var(--accent);
-  transform-origin: 22px 22px;
-}
-.loader::after {
-  border-bottom: 2px solid var(--accent);
-  border-right: 2px solid var(--accent);
-  translate: 32px 32px;
-  transform-origin: -10px -10px;
-}
-@keyframes loader-bracket { to { rotate: 1turn; } }`,
+.loader::before { width: 70.7%; }
+.loader::after  { width: 50%; animation-duration: 2s; }
+@keyframes loader-spin { 100% { transform: rotate(1turn); } }`,
 
       m: `/* HTML: <div class="loader"></div> */
 .loader {
@@ -1658,41 +1646,35 @@ const css = \`
 .loader-lt {
   --accent: ${c.accent ?? '#1B4D3E'};
   width: 44px;
-  height: 44px;
-  position: relative;
-  border: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+  aspect-ratio: 1;
+  color: var(--accent);
+  border: 2px solid;
+  display: grid;
+  box-sizing: border-box;
+  animation: loader-lt-spin 4s infinite linear;
 }
 .loader-lt::before,
 .loader-lt::after {
   content: "";
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  top: 0;
-  left: 0;
-  animation: loader-lt-bracket 2.5s linear infinite;
+  grid-area: 1/1;
+  margin: auto;
+  aspect-ratio: 1;
+  border: 2px solid;
+  box-sizing: content-box;
+  animation: inherit;
 }
-.loader-lt::before {
-  border-top: 2px solid var(--accent);
-  border-left: 2px solid var(--accent);
-  transform-origin: 22px 22px;
-}
-.loader-lt::after {
-  border-bottom: 2px solid var(--accent);
-  border-right: 2px solid var(--accent);
-  translate: 32px 32px;
-  transform-origin: -10px -10px;
-}
-@keyframes loader-lt-bracket { to { rotate: 1turn; } }
+.loader-lt::before { width: 70.7%; }
+.loader-lt::after  { width: 50%; animation-duration: 2s; }
+@keyframes loader-lt-spin { 100% { transform: rotate(1turn); } }
 \`;
 
 interface Props {
   accent?: string;
 }
 
-// Usage: <LoaderCornerBrackets />
+// Usage: <LoaderNestedSquares />
 // On a green background pass accent="#C5A059"
-export function LoaderCornerBrackets({ accent = '#1B4D3E' }: Props) {
+export function LoaderNestedSquares({ accent = '#1B4D3E' }: Props) {
   return (
     <>
       <style>{\`\${css}\`}</style>
@@ -1757,7 +1739,7 @@ export function LoaderDiamondOscillation({ accent = '#1B4D3E' }: Props) {
       i: 'loader-i-segmented-spinner',
       j: 'loader-j-sweep-ring',
       k: 'loader-k-triangle-breathe',
-      l: 'loader-l-corner-brackets',
+      l: 'loader-l-nested-squares',
       m: 'loader-m-diamond-oscillation',
     };
 
